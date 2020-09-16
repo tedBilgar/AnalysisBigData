@@ -5,6 +5,7 @@ from mlxtend.preprocessing import TransactionEncoder
 from mlxtend.frequent_patterns import fpgrowth
 import mlxtend.frequent_patterns
 from utils import eclat
+from utils import eclat2
 
 
 us_list = []
@@ -42,8 +43,8 @@ te = TransactionEncoder()
 fin_te_ary = te.fit(financial_list).transform(financial_list)
 fin_df = pd.DataFrame(fin_te_ary, columns=te.columns_)
 
-bank_te_ary = te.fit(us_list).transform(us_list)
-bank_df = pd.DataFrame(bank_te_ary, columns=te.columns_)
+us_te_ary = te.fit(us_list).transform(us_list)
+us_df = pd.DataFrame(us_te_ary, columns=te.columns_)
 
 fire_te_ary = te.fit(forest_fires_list).transform(forest_fires_list)
 fire_df = pd.DataFrame(fire_te_ary, columns=te.columns_)
@@ -51,15 +52,24 @@ fire_df = pd.DataFrame(fire_te_ary, columns=te.columns_)
 # Apriori
 print('Apriori-Finance')
 print(mlxtend.frequent_patterns.apriori(fin_df, min_support=0.1, use_colnames=True).sort_values(by='support', ascending=False))
-print('Apriori-Bank')
-print(mlxtend.frequent_patterns.apriori(bank_df, min_support=0.1, use_colnames=True).sort_values(by='support', ascending=False))
+print('Apriori-US')
+print(mlxtend.frequent_patterns.apriori(us_df, min_support=0.1, use_colnames=True).sort_values(by='support', ascending=False))
 print('Apriori-Fire')
 print(mlxtend.frequent_patterns.apriori(fire_df, min_support=0.1, use_colnames=True).sort_values(by='support', ascending=False))
-
-#FP-GROWTH
+#
+# #FP-GROWTH
 print('FP-GROWTH-Finance')
 print(mlxtend.frequent_patterns.apriori(fin_df, min_support=0.1, use_colnames=True).sort_values(by='support', ascending=False))
 print('FP-GROWTH-Bank')
-print(mlxtend.frequent_patterns.apriori(bank_df, min_support=0.1, use_colnames=True).sort_values(by='support', ascending=False))
+print(mlxtend.frequent_patterns.apriori(us_df, min_support=0.1, use_colnames=True).sort_values(by='support', ascending=False))
 print('FP-GROWTH-Fire')
 print(mlxtend.frequent_patterns.apriori(fire_df, min_support=0.1, use_colnames=True).sort_values(by='support', ascending=False))
+
+# ECLAT
+fin_eclat_res = []
+us_eclat_res = []
+fire_eclat_res = []
+print(eclat2.eclat(financial_list, supp=10, out=fin_eclat_res))
+print(eclat2.eclat(us_list, supp=10, out=us_eclat_res))
+print(eclat2.eclat(forest_fires_list, supp=10, out=fire_eclat_res))
+
