@@ -7,15 +7,14 @@ import mlxtend.frequent_patterns
 from utils import eclat
 
 
-
-bank_list = []
+us_list = []
 financial_list = []
 forest_fires_list = []
 
-with open('../bank/bank.csv', 'r') as f:
+with open('../bank/us.csv', 'r') as f:
     reader = csv.reader(f)
-    bank_list = list(reader)
-    bank_list.pop(0)
+    us_list = list(reader)
+    us_list.pop(0)
 
 with open('../bank/financial_stat.csv', 'r') as f:
     reader = csv.reader(f)
@@ -43,7 +42,7 @@ te = TransactionEncoder()
 fin_te_ary = te.fit(financial_list).transform(financial_list)
 fin_df = pd.DataFrame(fin_te_ary, columns=te.columns_)
 
-bank_te_ary = te.fit(bank_list).transform(bank_list)
+bank_te_ary = te.fit(us_list).transform(us_list)
 bank_df = pd.DataFrame(bank_te_ary, columns=te.columns_)
 
 fire_te_ary = te.fit(forest_fires_list).transform(forest_fires_list)
