@@ -19,9 +19,9 @@ netflix_list = []
 vg_df = pd.read_csv('../bank/vgsales.csv')
 vg_list = vg_df.drop(['Rank', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales'], axis=1).astype(str).values.tolist()
 
-# Получение Машин США
+# Получение Машин США https://www.kaggle.com/doaaalsenani/usa-cers-dataset
 us_cars_df = pd.read_csv('../bank/us_cars.csv')
-us_cars_list = us_cars_df.drop([us_cars_df.columns[0], 'mileage', 'vin', 'lot'], axis=1).astype(str).values.tolist()
+us_cars_list = us_cars_df.drop([us_cars_df.columns[0], 'mileage', 'vin', 'lot', 'country', 'model', 'title_status'], axis=1).astype(str).values.tolist()
 
 # Получение записей Netflix
 netflix_df = pd.read_csv('../bank/netflix_titles.csv')
@@ -42,25 +42,32 @@ netflix_df = pd.DataFrame(netflix_te_ary, columns=te.columns_)
 
 # Apriori
 print('Apriori-Video Games')
-vg_freq_items = apriori(vg_df, min_support=0.1, use_colnames=True).sort_values(by='support', ascending=False)
+vg_freq_items = apriori(vg_df, min_support=0.001, use_colnames=True).sort_values(by='support', ascending=False)
 print(vg_freq_items)
-print('Apriori-US votes')
+print('Apriori-US Cars')
 start_time = time.time()
-us_cars_freq_items = apriori(us_cars_df, min_support=0.01, use_colnames=True).sort_values(by='support', ascending=False)
+us_cars_freq_items = apriori(us_cars_df, min_support=0.05, use_colnames=True).sort_values(by='support', ascending=False)
 print(us_cars_freq_items)
 apriori_time = time.time() - start_time
 print('Apriori-Netflix')
-netflix_freq_items = apriori(netflix_df, min_support=0.1, use_colnames=True).sort_values(by='support', ascending=False)
+netflix_freq_items = apriori(netflix_df, min_support=0.05, use_colnames=True).sort_values(by='support', ascending=False)
 print(netflix_freq_items)
 
-print('Association rules for videogames:')
-vg_rules = association_rules(vg_freq_items, metric="confidence", min_threshold=0.6)
-print(vg_rules)
+# Получение правил
+time_list = []
+
+print('Association rules for videogames (support ):')
+vg_rules = association_rules(vg_freq_items, metric="confidence", min_threshold=0.6).sort_values(by='confidence', ascending=False)
+print(vg_rules[:20])
 
 print('Association rules for US Cars:')
-us_cars_rules = association_rules(us_cars_freq_items, metric="confidence", min_threshold=0.6)
-print(us_cars_rules)
+us_cars_rules = association_rules(us_cars_freq_items, metric="confidence", min_threshold=0.6).sort_values(by='confidence', ascending=False)
+print(us_cars_rules[:20])
 
 print('Association rules for Netflix:')
-netflix_rules = association_rules(netflix_freq_items, metric="confidence", min_threshold=0.6)
-print(netflix_rules)
+netflix_rules = association_rules(netflix_freq_items, metric="confidence", min_threshold=0.2).sort_values(by='confidence', ascending=False)
+print(netflix_rules[:20])
+
+
+# Визуализация данных
+
