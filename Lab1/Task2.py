@@ -17,12 +17,10 @@ netflix_list = []
 
 # Получение записей видеоигр
 vg_df = pd.read_csv('../bank/vgsales.csv')
-print(vg_df[:5])
 vg_list = vg_df.drop(['Rank', 'NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales'], axis=1).astype(str).values.tolist()
 
 # Получение Машин США https://www.kaggle.com/doaaalsenani/usa-cers-dataset
 us_cars_df = pd.read_csv('../bank/us_cars.csv')
-print(us_cars_df[:5])
 us_cars_list = us_cars_df.drop([us_cars_df.columns[0], 'mileage', 'vin', 'lot', 'country', 'model', 'title_status'], axis=1).astype(str).values.tolist()
 
 # Получение записей Netflix
