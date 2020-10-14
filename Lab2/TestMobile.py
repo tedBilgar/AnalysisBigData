@@ -3,6 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn import metrics
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 import numpy as np
 
 mob_df = pd.read_csv('../test_bank/mob_price_classes.csv')
@@ -46,5 +47,16 @@ plt.bar(X - 1.6, accuracy_list, width=0.8, color='b', align='center')
 plt.bar(X - 0.8, precision_list, width=0.8, color='g', align='center')
 plt.bar(X, recall_list, width=0.8, color='r', align='center')
 plt.bar(X + 0.8, f1_list, width=0.8, color='y', align='center')
+plt.ylim(0, 1.2)
+
+blue_patch = mpatches.Patch(color='b', label='Accuracy')
+green_patch = mpatches.Patch(color='g', label='Precision')
+red_patch = mpatches.Patch(color='r', label='Recall')
+yellow_patch = mpatches.Patch(color='y', label='F-score')
+plt.legend(handles=[blue_patch, green_patch, red_patch, yellow_patch])
+
+plt.title('Метрики классификации')
+plt.ylabel('Значение метрики')
+plt.xlabel('Мощность обучающей выборки')
 
 plt.show()
