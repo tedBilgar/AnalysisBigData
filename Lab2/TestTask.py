@@ -13,7 +13,7 @@ print("Features: ", wine.feature_names)
 # print the label type of wine(class_0, class_1, class_2)
 print("Labels: ", wine.target_names)
 
-X_train, X_test, y_train, y_test = train_test_split(wine.data, wine.target, test_size=0.3,random_state=109) # 70% training and 30% test
+X_train, X_test, y_train, y_test = train_test_split(wine.data, wine.target, test_size=0.4,random_state=109, shuffle=True) # 70% training and 30% test
 
 #Create a Gaussian Classifier
 gnb = GaussianNB()
@@ -26,3 +26,6 @@ y_pred = gnb.predict(X_test)
 
 # Model Accuracy, how often is the classifier correct?
 print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
+print("Precision:", metrics.precision_score(y_test, y_pred, average='weighted'))
+print("Recall:", metrics.recall_score(y_test, y_pred, average='weighted'))
+print("F1-score:", metrics.f1_score(y_test, y_pred, average='weighted'))
