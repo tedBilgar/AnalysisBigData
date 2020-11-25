@@ -1,0 +1,8 @@
+https://www.kaggle.com/etsc9287/2020-general-election-polls?select=trump_biden_polls.csv
+
+https://www.kaggle.com/tunguz/us-elections-dataset
+
+https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/VWXHQZ
+
+https://www.kaggle.com/radustoicescu/2020-united-states-presidential-election?select=candidates_info.csv        ???
+
