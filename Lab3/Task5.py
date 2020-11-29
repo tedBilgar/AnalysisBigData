@@ -1,69 +1,59 @@
-from matplotlib import pyplot as plt
-import matplotlib.patches as mpatches
-from sklearn.model_selection import train_test_split
-from sklearn import metrics
-from sklearn.tree import DecisionTreeClassifier
-import pandas as pd
+from sklearn.datasets import make_moons
+from sklearn.datasets import make_blobs
 import numpy as np
-from sklearn import tree
+import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
-from mpl_toolkits.mplot3d import Axes3D
-from sklearn.cluster import KMeans
-from sklearn.preprocessing import StandardScaler
+import random
 
-# https://www.kaggle.com/vjchoudhary7/customer-segmentation-tutorial-in-python
-# https://medium.com/data-folks-indonesia/step-by-step-to-understanding-k-means-clustering-and-implementation-with-sklearn-b55803f519d6
-# https://www.kaggle.com/arshid/iris-flower-dataset
-## Load Data
-# dfa = pd.read_csv('../bank/Mall_Customers.csv')
-# dfa = dfa[['Age','Annual Income (k$)','Spending Score (1-100)']]
-# print('Total Row : ', len(dfa))
-# print(dfa)
-#
-# ## Feature Scaling
-# sc_dfa = StandardScaler()
-# dfa_std = sc_dfa.fit_transform(dfa.astype(float))
-# ## Clustering with KMeans
-# kmeans = KMeans(n_clusters=3, random_state=42).fit(dfa_std)
-# labels = kmeans.labels_
-# new_dfa = pd.DataFrame(data = dfa_std, columns = ['Age','Annual Income (k$)','Spending Score (1-100)'])
-# new_dfa['label_kmeans'] = labels
-#
-# fig = plt.figure(figsize=(20,10))
-# ax = fig.add_subplot(111, projection='3d')
-# ax.scatter(new_dfa.Age[new_dfa.label_kmeans == 0], new_dfa['Annual Income (k$)'][new_dfa.label_kmeans == 0], new_dfa['Spending Score (1-100)'][new_dfa.label_kmeans == 0], c='blue', s=100, edgecolor='green',linestyle='--')
-# ax.scatter(new_dfa.Age[new_dfa.label_kmeans == 1], new_dfa['Annual Income (k$)'][new_dfa.label_kmeans == 1], new_dfa['Spending Score (1-100)'][new_dfa.label_kmeans == 1], c='red', s=100, edgecolor='green',linestyle='--')
-# ax.scatter(new_dfa.Age[new_dfa.label_kmeans == 2], new_dfa['Annual Income (k$)'][new_dfa.label_kmeans == 2], new_dfa['Spending Score (1-100)'][new_dfa.label_kmeans == 2], c='green', s=100, edgecolor='green',linestyle='--')
-# ax.scatter(new_dfa.Age[new_dfa.label_kmeans == 3], new_dfa['Annual Income (k$)'][new_dfa.label_kmeans == 3], new_dfa['Spending Score (1-100)'][new_dfa.label_kmeans == 3], c='orange', s=100, edgecolor='green',linestyle='--')
-# ax.scatter(new_dfa.Age[new_dfa.label_kmeans == 4], new_dfa['Annual Income (k$)'][new_dfa.label_kmeans == 4], new_dfa['Spending Score (1-100)'][new_dfa.label_kmeans == 4], c='purple', s=100, edgecolor='green',linestyle='--')
-# centers = kmeans.cluster_centers_
-# ax.scatter(centers[:, 0], centers[:, 1], centers[:, 2], c='black', s=500);
-# plt.xlabel('Age')
-# plt.ylabel('Annual Income (k$)')
-# ax.set_zlabel('Spending Score (1-100)')
-# plt.show()
-
-## Load Data
-dfa = pd.read_csv("../bank/Mall_Customers.csv")
-dfa = dfa[['Age','Annual Income (k$)']]
-print('Total Row : ', len(dfa))
-## Feature Scaling
-sc_dfa = StandardScaler()
-dfa_std = sc_dfa.fit_transform(dfa.astype(float))
-## Clustering with KMeans
-kmeans = KMeans(n_clusters=3, random_state=42).fit(dfa_std)
-labels = kmeans.labels_
-new_dfa = pd.DataFrame(data = dfa_std, columns = ['Age','Annual Income (k$)'])
-new_dfa['label_kmeans'] = labels
-fig, ax = plt.subplots(figsize=(10,7))
-plt.scatter(new_dfa["Annual Income (k$)"][new_dfa["label_kmeans"] == 0], new_dfa["Age"][new_dfa["label_kmeans"] == 0],
-            color = "blue", s=100, edgecolor='green',linestyle='--')
-plt.scatter(new_dfa["Annual Income (k$)"][new_dfa["label_kmeans"] == 1], new_dfa["Age"][new_dfa["label_kmeans"] == 1],
-            color = "red", s=100, edgecolor='green',linestyle='--')
-plt.scatter(new_dfa["Annual Income (k$)"][new_dfa["label_kmeans"] == 2], new_dfa["Age"][new_dfa["label_kmeans"] == 2],
-            color = "green", s=100, edgecolor='green',linestyle='--')
-centers = kmeans.cluster_centers_
-plt.scatter(centers[:, 0], centers[:, 1], c='black', s=500)
-ax.set_xlabel('Annual Income (k$)')
-ax.set_ylabel('Age')
+# https://saskeli.github.io/data-analysis-with-python-summer-2019/clustering.html
+# Строим выпуклые кластеры
+X_blobs,y_blobs = make_blobs(centers=4, n_samples=200, random_state=0, cluster_std=0.7)
+plt.scatter(X_blobs[:,0],X_blobs[:,1])
 plt.show()
+
+print('Всего ' + str(len(y_blobs)) + ' элементов')
+
+x = 3
+while x < 10:
+    # Выполняем кластеризацию
+    model = KMeans(x)
+    model.fit(X_blobs)
+
+    # Выполним визуализацию полученных кластеров
+    plt.scatter(X_blobs[:,0], X_blobs[:,1], c=model.labels_)
+    plt.scatter(model.cluster_centers_[:,0], model.cluster_centers_[:,1], s=100, color="red") # Show the centres
+    plt.title('Визуализация из ' + str(x) + ' кластеров')
+    plt.show()
+    x = x + 1
+
+# Добавляем шумы и кластеризуем на 4 центроидах
+noise_array = [1, 3, 5, 10]
+
+for noise_percent in noise_array:
+    noise_len = noise_percent * 0.01 * len(y_blobs)
+    X_blobs_noise = X_blobs.copy()
+    for i in range(int(noise_len)):
+        X_blobs_noise = np.append(X_blobs_noise, [[random.uniform(0, 20), random.uniform(0, 20)]], axis=0)
+
+    # Выполняем кластеризацию
+    for cluster_count in [3, 6, 9]:
+        model = KMeans(cluster_count)
+        model.fit(X_blobs_noise)
+
+        # Выполним визуализацию полученных кластеров
+        plt.scatter(X_blobs_noise[:,0], X_blobs_noise[:,1], c=model.labels_)
+        plt.scatter(model.cluster_centers_[:,0], model.cluster_centers_[:,1], s=100, color="red") # Show the centres
+        plt.title('Визуализация с шумами ' + str(noise_percent) + '% из ' + str(cluster_count) + ' кластеров')
+        plt.show()
+
+
+# Выполним кластеризацию с невыпуклыми кластерами
+X_moons,y_moons = make_moons(200, noise=0.05, random_state=0)
+plt.scatter(X_moons[:,0], X_moons[:,1])
+plt.show()
+
+for cluster_count in [3, 6, 9]:
+    model=KMeans(cluster_count)
+    model.fit(X_moons)
+    plt.scatter(X_moons[:,0], X_moons[:,1], c=model.labels_)
+    plt.show()
