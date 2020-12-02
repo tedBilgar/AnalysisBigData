@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 import random
 
-# https://saskeli.github.io/data-analysis-with-python-summer-2019/clustering.html
 # Строим выпуклые кластеры
 X_blobs,y_blobs = make_blobs(centers=4, n_samples=200, random_state=0, cluster_std=0.7)
 plt.scatter(X_blobs[:,0],X_blobs[:,1])
@@ -56,4 +55,5 @@ for cluster_count in [3, 6, 9]:
     model=KMeans(cluster_count)
     model.fit(X_moons)
     plt.scatter(X_moons[:,0], X_moons[:,1], c=model.labels_)
+    plt.title('Визуализация из ' + str(cluster_count) + ' кластеров')
     plt.show()
