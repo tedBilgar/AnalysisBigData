@@ -6,9 +6,9 @@ from scipy.cluster.hierarchy import dendrogram
 from scipy.cluster.hierarchy import dendrogram, linkage
 
 
-noisy_circles = datasets.make_circles(n_samples=100, factor=.5, noise=.05)
-noisy_moons = datasets.make_moons(100, noise=0.05, random_state=0)
-blobs = datasets.make_blobs(centers=4, n_samples=100, random_state=0, cluster_std=0.7)
+noisy_circles = datasets.make_circles(n_samples=70, factor=.5, noise=.05)
+noisy_moons = datasets.make_moons(70, noise=0.05, random_state=0)
+blobs = datasets.make_blobs(centers=4, n_samples=70, random_state=0, cluster_std=0.7)
 
 dataset_list = [
     (noisy_circles, {'n_clusters': 2}, 'Circles'),
@@ -34,10 +34,11 @@ for (dataset, alg_params, data_name) in dataset_list:
         algorithm.fit(X)
 
         plt.scatter(X[:, 0], X[:, 1], c=algorithm.labels_)
-        plt.title('Визуализация для датасета ' + str(data_name) + ' Linkage алгоритмом ' + str(name))
+        plt.title('Визуализация для датасета ' + str(data_name) + ' алгоритмом ' + str(name) + ' Linkage')
         plt.show()
 
         Z = linkage(X, method=str(name).lower())
         dendrogram(Z)
+        plt.title('Дендрограмма для датасета ' + str(data_name) + ' алгоритмом ' + str(name) + ' Linkage')
         plt.show()
 
