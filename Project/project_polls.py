@@ -68,6 +68,7 @@ for poll in president_poll_2020_list:
         president_poll_2020_list_winner.append(np.append(poll, 'Biden'))
 
 president_poll_2020_list_winner = np.delete(president_poll_2020_list_winner, [2, 3] , 1)
+print(president_poll_2020_list_winner[:2])
 
 te = TransactionEncoder()
 president_2020_poll_te_ary = te.fit(president_poll_2020_list_winner).transform(president_poll_2020_list_winner)
