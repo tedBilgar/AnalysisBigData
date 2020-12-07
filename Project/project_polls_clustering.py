@@ -29,6 +29,8 @@ trump_president_forecasts_list_refactor = []
 for poll in trump_president_forecasts_list:
     trump_president_forecasts_list_refactor.append([float(poll[0]), float(poll[1])])
 
+print(trump_president_forecasts_list_refactor[0])
+
 trump_president_forecasts_list_refactor = np.array(trump_president_forecasts_list_refactor)
 plt.scatter(trump_president_forecasts_list_refactor[:,0],trump_president_forecasts_list_refactor[:,1])
 plt.show()

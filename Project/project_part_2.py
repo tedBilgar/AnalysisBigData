@@ -28,6 +28,8 @@ poll_2020_list_refactor = []
 for poll in poll_2020_list:
     poll_2020_list_refactor.append([poll[0], poll[1], float(poll[2])])
 
+print(poll_2020_list_refactor[:10])
+
 
 def get_sum_votes(poll_list, state, candidate_name):
     state_candidate_poll_list = list(filter(lambda x: x[0] == state and x[1] == candidate_name, poll_list))
