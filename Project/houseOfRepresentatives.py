@@ -63,8 +63,6 @@ for candidate in house_candidates_list:
             current_state_year.append(candidate)
             current_min = int(candidate[3])
 
-pass
-
 # Выполняем нахождение частых наборов по "Штат", "партия"
 te = TransactionEncoder()
 house_pref_te_ary = te.fit(house_pref_list).transform(house_pref_list)
