@@ -25,7 +25,7 @@ with open('datasets/1976-2018-house3.csv', 'r', encoding='ISO-8859-1') as f:
 
 house_candidates_list = np.delete(house_candidates_list, list(range(2, 12)) + list(range(13, 15)) + list(range(16, 20)), 1)   #Удаляем излишние столбцы
 
-print(house_candidates_list[:10])
+house_candidates_list = house_candidates_list[15418::]
 
 house_pref_list = []
 current_state_year = []
