@@ -12,7 +12,7 @@ def generate_matrix(dim):
                 num_list.append(random.randint(-100, 100))
         matrixA.append(num_list)
 
-    f = open("matrixA.txt", "w")
+    f = open("matrixA256.txt", "w")
     for row in matrixA:
         f.write(" ".join([str(int) for int in row]))
         f.write("\n")
@@ -22,11 +22,11 @@ def generate_matrix(dim):
     for elem in range(0, dim):
         matrixB.append(random.randint(-100, 100))
 
-    f = open("matrixB.txt", "w")
+    f = open("matrixB256.txt", "w")
     for elem in matrixB:
         f.write(str(elem) + "\n")
     f.close()
 
 
-generate_matrix(1000)
+generate_matrix(256)
 
